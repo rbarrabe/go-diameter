@@ -426,12 +426,12 @@ func (m *Message) String() string {
 	); err != nil {
 		fmt.Fprintf(&b, "Unknown-%s\n%s\n", typ, m.Header)
 	} else {
-		fmt.Fprintf(&b, "%s-%s (%s%c)\n%s\n",
+		fmt.Fprintf(&b, "%s-%s (%s%c)\n",
 			dictCMD.Name,
 			typ,
 			dictCMD.Short,
 			typ[0],
-			m.Header,
+			// m.Header,
 		)
 	}
 	for _, a := range m.AVP {
@@ -452,12 +452,7 @@ func (m *Message) String() string {
 
 func printGrouped(prefix string, m *Message, a *AVP, indent int) string {
 	var b bytes.Buffer
-	fmt.Fprintf(&b, "{Code:%d,Flags:0x%x,Length:%d,VendorId:%d,Value:Grouped{\n",
-		a.Code,
-		a.Flags,
-		a.Len(),
-		a.VendorID,
-	)
+	fmt.Fprintf(&b, "{\n")
 	for _, ga := range a.Data.(*GroupedAVP).AVP {
 		if dictAVP, err := m.Dictionary().FindAVPWithVendor(
 			m.Header.ApplicationID,
@@ -475,7 +470,7 @@ func printGrouped(prefix string, m *Message, a *AVP, indent int) string {
 			}
 		}
 	}
-	fmt.Fprintf(&b, "%s}}", prefix)
+	fmt.Fprintf(&b, "%s}", prefix)
 	return b.String()
 }
 

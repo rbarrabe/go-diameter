@@ -152,11 +152,7 @@ func (a *AVP) headerLen() int {
 }
 
 func (a *AVP) String() string {
-	return fmt.Sprintf("{Code:%d,Flags:0x%x,Length:%d,VendorId:%d,Value:%s}",
-		a.Code,
-		a.Flags,
-		a.Len(),
-		a.VendorID,
+	return fmt.Sprintf("{%s}",
 		a.Data,
 	)
 }
